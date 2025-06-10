@@ -30,7 +30,6 @@ export class BatchFetcher implements Fetcher {
 				}
 			]
 		});
-		console.log(response)
 		return response;
 	}
 }

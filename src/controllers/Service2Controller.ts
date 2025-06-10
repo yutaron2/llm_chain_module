@@ -1,12 +1,17 @@
 import { BaseController } from './BaseController';
-import { Service2Param } from '../factories/ParamFactory';
+import { ResponseService } from '../services/ResponseService';
+import { PromptService } from '../services/PromptService';
+import { injectable, inject } from 'inversify';
+import { TYPES } from './types';
 
 export class Service2Controller implements BaseController {
-    constructor(private param: Service2Param) {}
+    constructor(
+        @inject(TYPES.ResponseService) private responseService: ResponseService,
+    	@inject(TYPES.PromptService) private promptService: PromptService
+    ) {}
 
     async execute(): Promise<number> {
         // 実装例
-        console.log('service 2:', this.param.template);
         return 0;
     }
 } 
