@@ -39,9 +39,6 @@ async function main() {
   console.log(service)
   const controller = getController(service)
 
-  // この処理でコントローラーにパラメータの入力を受ける。
-  const param = await ParamFactory.create(service);
-  // const controller = ControllerFactory.create(param);
   const statusCode = await controller.execute();
   console.log("statusCode:", statusCode);
   console.log("statusCode is...")
@@ -49,20 +46,8 @@ async function main() {
 }
 
 const getController = (serviceName: string): BaseController => {
-  const capitalizedServiceName = serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
-  const container = new Container();
-  // to()にはコンストラクタを渡している。
-  container.bind<BaseController>(TYPES.Service1Controller).to(Service1Controller);
-  container.bind<BaseController>(TYPES.Service2Controller).to(Service2Controller);
-  container.bind<BaseController>(TYPES.Service3Controller).to(Service3Controller);
 
-  container.bind<ResponseService>(TYPES.ResponseService).to(ResponseServiceImpl);
-  container.bind<PromptService>(TYPES.PromptService).to(PromptServiceImpl);
-  // 入力されたserviceNameにControllerを足すと、TYPESのキーのどれかになるはず
-  const typeKey = `${capitalizedServiceName}Controller` as keyof typeof TYPES;
-
-
-  return container.get<BaseController>(TYPES[typeKey]);
+  return ControllerFactory.create(serviceName)
 };
 
 function welcome() {
